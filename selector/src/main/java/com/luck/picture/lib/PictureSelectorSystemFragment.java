@@ -1,6 +1,7 @@
 package com.luck.picture.lib;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -113,18 +114,22 @@ public class PictureSelectorSystemFragment extends PictureCommonFragment {
      */
     private void openSystemAlbum() {
         onPermissionExplainEvent(false, null);
-        if (selectorConfig.selectionMode == SelectModeConfig.SINGLE) {
-            if (selectorConfig.chooseMode == SelectMimeType.ofAll()) {
-                mDocSingleLauncher.launch(SelectMimeType.SYSTEM_ALL);
+        try {
+            if (selectorConfig.selectionMode == SelectModeConfig.SINGLE) {
+                if (selectorConfig.chooseMode == SelectMimeType.ofAll()) {
+                    mDocSingleLauncher.launch(SelectMimeType.SYSTEM_ALL);
+                } else {
+                    mContentLauncher.launch(getInput());
+                }
             } else {
-                mContentLauncher.launch(getInput());
+                if (selectorConfig.chooseMode == SelectMimeType.ofAll()) {
+                    mDocMultipleLauncher.launch(SelectMimeType.SYSTEM_ALL);
+                } else {
+                    mContentsLauncher.launch(getInput());
+                }
             }
-        } else {
-            if (selectorConfig.chooseMode == SelectMimeType.ofAll()) {
-                mDocMultipleLauncher.launch(SelectMimeType.SYSTEM_ALL);
-            } else {
-                mContentsLauncher.launch(getInput());
-            }
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
