@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
 
 android {
     compileSdk 34
@@ -29,21 +28,6 @@ android {
 
 ext {
     PUBLISH_ARTIFACT_ID = "pictureselector"
-}
-
-// Gradle 7.x / 8.x 推荐这样
-afterEvaluate {
-    publishing {
-        publications {
-            release(MavenPublication) {
-                // 这里如果找不到 components.release，可以换成以下写法：
-                from(components.findByName("release"))
-                groupId = 'com.github.xhh1993'
-                artifactId = 'PictureSelectorFix' // 直接写死
-                version = '2.0.1'
-            }
-        }
-    }
 }
 
 //apply from: '../publish.gradle'
