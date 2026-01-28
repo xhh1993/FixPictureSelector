@@ -1,4 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.xhh1993'
+                artifactId = project.name
+                version = "2.0.1"
+            }
+        }
+    }
+}
 
 android {
     compileSdk 34
